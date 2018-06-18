@@ -1,0 +1,7 @@
+{
+    "name": "NahroTo/database-manager",
+    "description": "PDO wrapper for quicker database usage.",
+    "require": {
+        "php": "^7.0"
+    }
+}
