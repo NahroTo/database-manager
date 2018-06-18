@@ -1,6 +1,7 @@
 {
     "name": "nahroto/database-manager",
     "description": "PDO wrapper for quicker database usage.",
+    "license": "MIT",
     "require": {
         "php": "^7.0"
     }
