@@ -42,7 +42,7 @@ class DatabaseManager {
     /**
      * Queries the database.
      * @param string $sqlQuery The query in SQL.
-     * @param array $bindedParameters (optional) Key-value pair(s) of binded parameters.
+     * @param array $bindedParameters (optional) Array of binded parameters that are marked with '?' in the query.
      * @return array The query results.
      */
     public function query(string $sqlQuery, array $bindedParameters = null): array  {
@@ -51,8 +51,8 @@ class DatabaseManager {
         }
         $pdoStatement = $pdo->prepare($sqlQuery);
         if (!is_null($bindedParameters)) {
-            foreach ($bindedParameters as $paramKey => $paramValue) {
-                $pdoStatement->bindParam($paramKey, $paramValue);
+            foreach ($bindedParameters as $index => $bindedParameter) {
+                $pdoStatement->bindParam($index + 1, $bindedParameter);
             }
         }
         $pdoStatement->execute();
