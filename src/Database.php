@@ -1,4 +1,6 @@
 <?php
+namespace NahroTo\DatabaseManager;
+
 class Database {
     
     /** @var string */

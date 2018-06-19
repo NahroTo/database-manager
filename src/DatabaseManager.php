@@ -1,4 +1,8 @@
 <?php
+namespace NahroTo\DatabaseManager;
+
+use NahroTo\DatabaseManager\Database;
+
 class DatabaseManager {
 
     /** @var Database The database this class uses. */
@@ -15,21 +19,16 @@ class DatabaseManager {
     }
 
     /**
-     * Starts a new connection with the database.
+     * Starts a new database connection.
      * Must be called before {@see DatabaseManager::query()}
      */
     public function start(): void {
         $database = $this->getDatabase();
 
-        $databaseHost = $database->getHost();
-        $databaseUsername = $database->getUsername();
-        $databasePassword = $database->getPassword();
-        $databaseName = $database->getName();
-
         $pdo = new PDO(
-            "mysql:host=$databaseHost;dbname=$databaseName",
-            $databaseUsername,
-            $databasePassword
+            "mysql:host=".$database->getHost().";dbname=".$database->getName(),
+            $database->getUsername(),
+            $database->getPassword()
         );
 
         foreach ($this->pdoAttributes as $attribute => $value) {
