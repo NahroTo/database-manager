@@ -39,7 +39,7 @@ class DatabaseManager {
     }
 
     /**
-     * Queries the database.
+     * Queries the database. {@see DatabaseManager::start()} must be called first.
      * @param string $sqlQuery The query in SQL.
      * @param array $bindedParameters (optional) Array of binded parameters that are marked with '?' in the query.
      * @return array The query results.
@@ -56,6 +56,21 @@ class DatabaseManager {
         }
         $pdoStatement->execute();
         return $pdoStatement->fetchAll();
+    }
+
+    /**
+     * Starts a new database connection, queries the database then stops the database connection.
+     * This should be only called if you need to query the database once in a session,
+     * otherwise use {@see DatabaseManager::query()}.
+     * @param string $sqlQuery The query in SQL.
+     * @param array $bindedParameters (optional) Array of binded parameters that are marked with '?' in the query.
+     * @return array The query results.
+     */
+    public function queryOnce(string $sqlQuery, array $bindedParameters = null): array  {
+        $this->start();
+        $results = $this->query($sqlQuery, $bindedParameters);
+        $this->stop();
+        return $results;
     }
 
     /**
