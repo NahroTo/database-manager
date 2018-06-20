@@ -54,7 +54,8 @@ class DatabaseManager {
      * @return array The query results.
      */
     public function query(string $sqlQuery, array $bindedParameters = null): array  {
-        if (is_null($this->pdo)) {
+        $pdo = $this->pdo;
+        if (is_null($pdo)) {
             throw new Exception("query(..) called without calling start() before.");
         }
         $pdoStatement = $pdo->prepare($sqlQuery);
