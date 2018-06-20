@@ -21,7 +21,7 @@ class DatabaseManager {
      * @var int The PDO fetch style used on {@see PDOStatement::fetchAll()}
      * which is called in {@see DatabaseManager::query()}.
      * */
-    private $fetchStyle = DEFAULT_FETCH_STYLE;
+    private $fetchStyle = self::DEFAULT_FETCH_STYLE;
 
     public function __construct(Database $database) {
         $this->database = $database;
@@ -34,7 +34,7 @@ class DatabaseManager {
     public function start(): void {
         $database = $this->getDatabase();
 
-        $pdo = new PDO(
+        $pdo = new \PDO(
             "mysql:host=".$database->getHost().";dbname=".$database->getName(),
             $database->getUsername(),
             $database->getPassword()
@@ -98,7 +98,7 @@ class DatabaseManager {
      * @return Database The database.
      */
     public function getDatabase(): Database {
-        return $this->$database;
+        return $this->database;
     }
 
     /**
