@@ -15,7 +15,7 @@ class DatabaseManager {
     private $pdo;
 
     /** @var array */
-    private $pdoAttributes = [];
+    private $pdoAttributeSets = [];
 
     /**
      * @var int The PDO fetch style used on {@see \PDOStatement::fetchAll()}
@@ -40,8 +40,8 @@ class DatabaseManager {
             $database->getPassword()
         );
 
-        foreach ($this->pdoAttributes as $attribute => $value) {
-            $pdo->setAttribute($attribute, $value);
+        foreach ($this->pdoAttributeSets as $pdoAttributeSet) {
+            $pdo->setAttribute($pdoAttributeSet[0], $pdoAttributeSet[1]);
         }
 
         $this->pdo = $pdo;
@@ -106,15 +106,15 @@ class DatabaseManager {
      * Sets the pdo attributes. {@see DatabaseManager::start()} needs to be called
      * afterwards in order to apply the changes.
      */
-    public function setPdoAttributes(array $pdoAttributes): void {
-        $this->pdoAttributes = $pdoAttributes;
+    public function setPdoAttribute(int $attribute, mixed $value): void {
+        array_push($this->pdoAttributeSets, [$attribute, $value]);
     }
 
     /**
      * @return array The configured PDO attributes.
      */
     public function getPdoAttributes(): array {
-        return $this->pdoAttributes;
+        return $this->pdoAttributeSets;
     }
 
     /**
