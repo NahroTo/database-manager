@@ -6,19 +6,19 @@ use NahroTo\DatabaseManager\Database;
 class DatabaseManager {
 
     /** @var int Default PDO fetch style */
-    const DEFAULT_FETCH_STYLE = PDO::FETCH_ASSOC;
+    const DEFAULT_FETCH_STYLE = \PDO::ATTR_DEFAULT_FETCH_MODE;
 
     /** @var Database The database this class uses. */
     private $database;
 
-    /** @var PDO */
+    /** @var \PDO */
     private $pdo;
 
     /** @var array */
     private $pdoAttributes = [];
 
     /**
-     * @var int The PDO fetch style used on {@see PDOStatement::fetchAll()}
+     * @var int The PDO fetch style used on {@see \PDOStatement::fetchAll()}
      * which is called in {@see DatabaseManager::query()}.
      * */
     private $fetchStyle = self::DEFAULT_FETCH_STYLE;
@@ -117,14 +117,14 @@ class DatabaseManager {
     }
 
     /**
-     * The fetch style used to query the results with {@see PDOStatement::fetchAll()}.
+     * The fetch style used to query the results with {@see \PDOStatement::fetchAll()}.
      */
     public function setFetchStyle(int $fetchStyle): void {
         $this->fetchStyle = $fetchStyle;
     }
 
     /**
-     * The fetch style used to query the results with {@see PDOStatement::fetchAll()}.
+     * The fetch style used to query the results with {@see \PDOStatement::fetchAll()}.
      */
     public function getFetchStyle(): int {
         return $this->fetchStyle;
