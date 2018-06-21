@@ -106,7 +106,7 @@ class DatabaseManager {
      * Sets the pdo attributes. {@see DatabaseManager::start()} needs to be called
      * afterwards in order to apply the changes.
      */
-    public function setPdoAttribute(int $attribute, mixed $value): void {
+    public function setPdoAttribute(int $attribute, $value): void {
         array_push($this->pdoAttributeSets, [$attribute, $value]);
     }
 
