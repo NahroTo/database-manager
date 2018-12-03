@@ -130,4 +130,8 @@ class DatabaseManager {
     public function getFetchStyle(): int {
         return $this->fetchStyle;
     }
+    
+    public function isStarted(): bool {
+        return $this->pdo != null;
+    }
 }
