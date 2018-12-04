@@ -6,7 +6,7 @@ use NahroTo\DatabaseManager\Database;
 class DatabaseManager {
 
     /** @var int Default PDO fetch style */
-    const DEFAULT_FETCH_STYLE = \PDO::ATTR_DEFAULT_FETCH_MODE;
+    const DEFAULT_FETCH_STYLE = PDO::FETCH_ASSOC;
 
     /** @var Database The database this class uses. */
     private $database;
@@ -51,21 +51,25 @@ class DatabaseManager {
      * Queries the database. {@see DatabaseManager::start()} must be called first.
      * @param string $sqlQuery The query in SQL.
      * @param array $bindedParameters (optional) Array of binded parameters that are marked with '?' in the query.
-     * @return array The query results.
+     * @return array The query results (if there is any).
      */
-    public function query(string $sqlQuery, array $bindedParameters = null): array  {
+    public function query(string $sqlQuery, array $bindedParameters = null)  {
         $pdo = $this->pdo;
         if (is_null($pdo)) {
             throw new Exception("query(..) called without calling start() before.");
         }
+        
         $pdoStatement = $pdo->prepare($sqlQuery);
         if (!is_null($bindedParameters)) {
             foreach ($bindedParameters as $index => $bindedParameter) {
-                $pdoStatement->bindParam($index + 1, $bindedParameter);
+                $pdoStatement->bindValue($index + 1, $bindedParameter);
             }
         }
         $pdoStatement->execute();
-        return $pdoStatement->fetchAll($this->getFetchStyle());
+        if (substr($sqlQuery, 0, 6) === "INSERT") {
+            return $pdoStatement->fetchAll($this->getFetchStyle());
+        }
+        return null;
     }
 
     /**
@@ -76,7 +80,7 @@ class DatabaseManager {
      * @param array $bindedParameters (optional) Array of binded parameters that are marked with '?' in the query.
      * @return array The query results.
      */
-    public function queryOnce(string $sqlQuery, array $bindedParameters = null): array  {
+    public function queryOnce(string $sqlQuery, array $bindedParameters = null)  {
         $this->start();
         $results = $this->query($sqlQuery, $bindedParameters);
         $this->stop();
