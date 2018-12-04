@@ -6,7 +6,7 @@ use NahroTo\DatabaseManager\Database;
 class DatabaseManager {
 
     /** @var int Default PDO fetch style */
-    const DEFAULT_FETCH_STYLE = PDO::FETCH_ASSOC;
+    const DEFAULT_FETCH_STYLE = \PDO::FETCH_ASSOC;
 
     /** @var Database The database this class uses. */
     private $database;
