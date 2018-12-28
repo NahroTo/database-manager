@@ -67,7 +67,7 @@ class DatabaseManager {
         }
         $pdoStatement->execute();
         if (substr($sqlQuery, 0, 6) === "INSERT") {
-            return null;
+            return $pdo->lastInsertId();
         }
         return $pdoStatement->fetchAll($this->getFetchStyle());
     }
